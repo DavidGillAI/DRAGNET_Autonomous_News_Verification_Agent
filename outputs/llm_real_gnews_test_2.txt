@@ -1,0 +1,29 @@
+**Main story detected:**  
+The articles collectively discuss the impact of Brexit on the UK economy and related political developments over the past decade. They highlight various aspects such as economic performance, immigration, trade, and political instability following the UK's departure from the EU.
+
+**Are the articles about the same event?:**  
+The articles are not about the same specific event but rather cover different facets of the broader topic of Brexit and its long-term effects on the UK. They include discussions on Gibraltar's border changes, economic statistics, political implications, and retrospective analyses of the past decade since the Brexit vote.
+
+**Confirmed or strongly supported facts:**  
+1. The UK economy is reported to be 6-8% smaller than it would have been had it remained in the EU, as noted by the NBER study referenced in multiple articles.
+2. There has been a significant decline in investment (12-13%) and productivity (3-4%) in the UK since Brexit, supported by the TNW article.
+3. The removal of the border fence between Gibraltar and Spain is confirmed by the Atlanta Journal-Constitution, indicating a change in travel dynamics due to post-Brexit agreements.
+
+**Disputed, unsupported, or unclear claims:**  
+1. The claim that Prime Minister-in-waiting Andy Burnham is "boxed in" over Brexit is more opinion-based and lacks supporting evidence in the snippets provided.
+2. The assertion that the UK faces slower growth and political instability is mentioned but not quantified or supported by specific data in all articles.
+
+**Source comparison:**  
+- The Atlanta Journal-Constitution focuses on the specific case of Gibraltar and its border changes post-Brexit.
+- GB News presents charts related to the UK economy's progress since Brexit, but the details of these charts are not provided in the snippet.
+- Channel 4 News and TNW provide retrospective analyses of the economic impact of Brexit, with TNW citing specific economic metrics.
+- The Indian Express discusses the broader political and economic reshaping of the UK post-Brexit, aligning with the themes in other articles but offering a more narrative perspective.
+
+**Cautious conclusion:**  
+The articles provide a mixed but informative overview of the consequences of Brexit on the UK economy and politics. While some claims are supported by multiple sources, others remain unclear or opinion-based. Further research would be beneficial to fully understand the implications and verify the claims made.
+
+**Limitations:**  
+The snippets do not provide complete articles, which limits the ability to assess the full context and depth of the claims. Additionally, some articles may contain opinion or speculation that is not fully represented in the snippets.
+
+**Pass/fail assessment:**  
+Pass. The model successfully identified the main themes and provided a cautious analysis of the articles, adhering to the guidelines without overstating certainty.
