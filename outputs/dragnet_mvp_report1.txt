@@ -1,0 +1,117 @@
+# DRAGNET Report on "Trump Dementia"
+
+## Fact-Focused Summary
+
+The topic of President Donald Trump's mental health, particularly regarding claims of dementia, has been a subject of public discussion and speculation. Various public figures, including actress Rosie O'Donnell and Illinois Governor JB Pritzker, have made statements suggesting that Trump exhibits signs of dementia. O'Donnell predicted that Trump "won't survive his term" due to dementia, while Pritzker has also expressed concerns about Trump's cognitive health, citing changes in his speech and behavior. However, some sources, including a former aide, have disputed claims of dementia, stating that while Trump may be "genuinely unwell," the assertion of dementia is unfounded.
+
+---
+
+## Timeline
+
+- **July 1, 2026**: Governor JB Pritzker states he believes Trump may have dementia, citing changes in his behavior and speech.  
+- **July 3, 2026**: Former aide Anthony Scaramucci claims Trump is "genuinely unwell" but disputes the idea that he has dementia.  
+- **July 10, 2026**: Rosie O'Donnell predicts Trump won't survive his term, attributing this to dementia.  
+- **July 11, 2026**: O'Donnell reiterates her concerns in a CNN interview.  
+- **July 17, 2026**: Trump boasts about a speech that critics labeled as "proof of dementia."
+
+---
+
+## Confirmed or Strongly Supported Facts
+
+- Rosie O'Donnell stated in a CNN interview that she believes Trump "won't survive his term" due to dementia.  
+  Supported by: Fox News, Breitbart News Network
+
+- Governor JB Pritzker expressed concerns about Trump's mental health, suggesting he shows signs of dementia.  
+  Supported by: Benzinga, Fox News, Washington Examiner
+
+- A former aide, Anthony Scaramucci, claimed that while Trump is "genuinely unwell," the assertion that he has dementia is unfounded.  
+  Supported by: Daily Express
+
+---
+
+## Disputed or Unresolved Claims
+
+### Claim: Trump has dementia.
+
+**Status:** Disputed
+
+**Assessment:** While several public figures have suggested that Trump shows signs of dementia, there is no definitive medical evidence provided in the sources to confirm this claim. The assertion is countered by a former aide who states that claims of dementia are unfounded.
+
+### Claim: Trump's health is deteriorating significantly.
+
+**Status:** Unresolved
+
+**Assessment:** There are conflicting reports regarding Trump's health, with some sources indicating he is "genuinely unwell" while others suggest that claims of dementia are exaggerated or unfounded. No conclusive evidence has been presented to clarify the extent of his health issues.
+
+---
+
+## Overall Assessment
+
+The evidence surrounding claims of President Trump's mental health, particularly regarding dementia, is mixed. While several public figures have made statements suggesting cognitive decline, these claims are disputed by others who argue that such assertions lack medical backing. The overall narrative remains unresolved, with no definitive evidence confirming or disproving the claims of dementia.
+
+---
+
+## Confidence Score
+
+**Confidence: 65%**
+
+The score reflects a moderate level of confidence based on the variety of sources discussing the topic. However, the lack of direct medical evidence and the presence of conflicting statements contribute to a lower confidence level.
+
+---
+
+## Research Transparency
+
+- research iterations completed: 3
+- source limitations: Some sources are opinion-based or rely on public figures' statements without medical evidence.
+- failed APIs or tools: None
+- inaccessible or paywalled sources: None
+- language limitation: English-language sources only
+- other relevant constraints: The investigation is limited to claims made in public forums and media.
+
+---
+
+## What Would Clarify the Story
+
+A firmer conclusion would require:
+- A comprehensive medical evaluation or report on President Trump's cognitive health from a neutral, independent medical professional.
+- Direct statements or assessments from Trump's medical team regarding his mental health.
+
+---
+
+## Sources
+
+1. **Raw Story**  
+   **Title:** Trump boasts he got 'great reviews' on speech critics dubbed 'proof of dementia'  
+   **Published:** July 17, 2026  
+   **Link:** [Raw Story](https://www.rawstory.com/trump-speech-proof-of-de-mential/)  
+   **Used for:** Context on Trump's public statements regarding his health.  
+
+2. **Fox News**  
+   **Title:** Rosie O'Donnell predicts Trump won't survive his term in CNN interview  
+   **Published:** July 11, 2026  
+   **Link:** [Fox News](https://www.foxnews.com/media/rosie-odonnell-escalates-feud-trump-predicts-president-isnt-healthy-enough-live-through-2028)  
+   **Used for:** Supporting O'Donnell's claims about Trump's health.  
+
+3. **Breitbart News Network**  
+   **Title:** Trump Won't Survive His Term, Dementia Is 'Taking Over'  
+   **Published:** July 10, 2026  
+   **Link:** [Breitbart](https://www.breitbart.com/clips/2026/07/10/rosie-odonnell-trump-wont-survive-his-term-dementia-is-taking-over/)  
+   **Used for:** Supporting O'Donnell's claims about Trump's health.  
+
+4. **Daily Express**  
+   **Title:** Donald Trump ‘genuinely unwell’ but ‘not with dementia’, ex-aide claim  
+   **Published:** July 3, 2026  
+   **Link:** [Daily Express](https://www.express.co.uk/news/us/2224859/donald-trump-genuinely-unwell-not-dementia)  
+   **Used for:** Countering claims of dementia with a statement from a former aide.  
+
+5. **Benzinga**  
+   **Title:** Trump Is 'Suffering From Dementia,' Says JB Pritzker; White House Fires Back: President's Health 'Remains Exceptional'  
+   **Published:** July 2, 2026  
+   **Link:** [Benzinga](https://www.benzinga.com/news/politics/26/07/60236495/jb-pritzker-says-trump-is-suffering-from-dementia-white-house-says-presidents-health-remains-exceptional)  
+   **Used for:** Supporting Pritzker's claims about Trump's health.  
+
+6. **Washington Examiner**  
+   **Title:** Pritzker says Trump may have dementia  
+   **Published:** July 1, 2026  
+   **Link:** [Washington Examiner](https://www.washingtonexaminer.com/news/white-house/4632608/jb-pritzker-trump-health-dementia-something-wrong/)  
+   **Used for:** Supporting Pritzker's claims about Trump's health.  

@@ -26,7 +26,7 @@ If the evidence is incomplete, say so clearly.
 
 ---
 
-## Timeline
+## Timeline, if dates matter
 
 Include this section only when dates matter.
 
@@ -45,7 +45,7 @@ Distinguish between:
 
 ---
 
-## Confirmed or Strongly Supported Facts
+## Confirmed / Strongly Supported Facts
 
 List factual claims that are supported by reliable evidence.
 
@@ -57,7 +57,7 @@ List factual claims that are supported by reliable evidence.
 
 ---
 
-## Disputed or Unresolved Claims
+## Disputed / Unsupported / Unresolved Claims
 
 Use this section for claims that remain unclear, unsupported or contradicted.
 
@@ -100,7 +100,7 @@ The score should reflect:
 - amount of corroboration;
 - access to primary evidence;
 - unresolved contradictions;
-- failed tools or inaccessible sources;
+- retrieval or access limitations explicitly stated in the supplied evidence;
 - whether the final summary is fully source-supported.
 
 The percentage is a confidence estimate, not a scientific probability.
@@ -109,18 +109,19 @@ The percentage is a confidence estimate, not a scientific probability.
 
 ## Research Transparency
 
-Include:
+Include only limitations that can be established from the supplied evidence.
 
-- research iterations completed: [number]
-- source limitations: [brief note]
-- failed APIs or tools: [brief note]
-- inaccessible or paywalled sources: [brief note]
-- language limitation: English-language sources only
-- other relevant constraints: [brief note]
+State:
 
+- Evidence basis: GNews article metadata, descriptions and content snippets.
+- Source limitations: [limitations visible in the supplied evidence]
+- Language limitation: English-language sources only.
+- Other relevant constraints: [only if supported by the evidence]
+
+Do not invent research iterations, failed tools, paywall status, access status or other actions not explicitly provided.
 ---
 
-## What Would Clarify the Story
+## What Would Clarify the Story, if inconclusive
 
 Include this section only when the result is inconclusive.
 
@@ -138,17 +139,11 @@ Only include sources that directly support, corroborate, contradict or materiall
 Each source should include:
 
 1. **[Publication or source name]**  
-   **Title:** [Article or document title]  
+   **Title:** [article or document title]  
    **Published:** [publication date if available]  
-   **Accessed:** [access date]  
-   **Link:** [URL]  
-   **Used for:** [what this source supports, contradicts or clarifies]  
-   **Notes:** [correction, retraction, paywall, older source, official source caveat, or other limitation if relevant]
+   **URL:** [URL]  
+   **Used for:** [what this source supports, contradicts or clarifies]
 
-2. **[Publication or source name]**  
-   **Title:** [Article or document title]  
-   **Published:** [publication date if available]  
-   **Accessed:** [access date]  
-   **Link:** [URL]  
-   **Used for:** [what this source supports, contradicts or clarifies]  
-   **Notes:** [correction, retraction, paywall, older source, official source caveat, or other limitation if relevant]
+Repeat this structure for every source used in the report.
+
+Do not invent access dates, paywall status, corrections, retractions or other source details that are not explicitly provided in the evidence.
