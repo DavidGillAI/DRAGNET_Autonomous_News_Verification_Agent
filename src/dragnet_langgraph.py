@@ -27,6 +27,36 @@ class DragnetState(TypedDict, total=False):
     research_query: str
     research_iteration_count: int
     research_log: list[str]
+    query_is_clear: bool
+    query_assessment: str
+    workflow_status: str
+
+def plan_initial_search_node(state: DragnetState):
+    planning_prompt = f"""
+Convert the user's question into a concise GNews keyword search.
+
+User question:
+{state["query"]}
+
+Requirements:
+- Use 3 to 8 search terms.
+- Preserve important names, organisations and events.
+- Remove question words and unnecessary explanatory words.
+- Do not include punctuation, quotation marks or operators.
+- Return only the search terms.
+""".strip()
+
+    response = llm.invoke(planning_prompt)
+    planned_query = response.content.strip()
+
+    api_query = re.sub(r"[^\w\s-]", " ", planned_query)
+    api_query = " ".join(api_query.split())
+
+    print(f"Initial GNews search query: {api_query}")
+
+    return {
+        "research_query": api_query,
+    }
 
 def research_node(state: DragnetState):
     search_query = state.get("research_query", state["query"])
@@ -70,6 +100,88 @@ def research_node(state: DragnetState):
         "research_log": state.get("research_log", []) + [research_entry],
 
     
+    }
+
+def assess_query_node(state: DragnetState):
+    article_overview = []
+
+    for number, article in enumerate(state["articles"], start=1):
+        article_overview.append(
+            f"""
+Article {number}
+Source: {article.get("source", {}).get("name", "Unknown")}
+Title: {article.get("title", "Not provided")}
+Description: {article.get("description", "Not provided")}
+""".strip()
+        )
+
+    assessment_prompt = f"""
+Assess whether the user's query identifies one sufficiently clear news story
+or claim for verification.
+
+User query:
+{state["query"]}
+
+Retrieved article overview:
+{"\n\n".join(article_overview)}
+
+Rules:
+- CLEAR means the query and results identify one main event or claim.
+- AMBIGUOUS means the query is a broad topic, contains only general keywords,
+  or the results describe multiple distinct stories.
+- Do not invent stories or details.
+- If ambiguous, provide 2 or 3 numbered clarification options based only on
+  the retrieved article titles and descriptions.
+
+Use exactly one of these on the first line:
+STATUS: CLEAR
+STATUS: AMBIGUOUS
+""".strip()
+
+    response = llm.invoke(assessment_prompt)
+    assessment = response.content.strip()
+    query_is_clear = assessment.startswith("STATUS: CLEAR")
+
+    return {
+        "query_is_clear": query_is_clear,
+        "query_assessment": assessment,
+        "workflow_status": (
+            "researching" if query_is_clear else "needs_clarification"
+        ),
+    }
+
+def decide_after_research(state: DragnetState):
+    if state["research_iteration_count"] == 1:
+        return "assess_query"
+
+    return "prepare_evidence"
+
+def decide_after_query_assessment(state: DragnetState):
+    if state["query_is_clear"]:
+        return "continue_research"
+
+    return "request_clarification"
+
+
+def clarification_node(state: DragnetState):
+    clarification_options = state["query_assessment"].replace(
+        "STATUS: AMBIGUOUS",
+        "",
+    ).strip()
+
+    clarification_message = f"""
+# DRAGNET Query Clarification
+
+The query is too broad to verify as one news story.
+
+{clarification_options}
+
+Please submit a more specific story or claim.
+""".strip()
+
+    return {
+        "final_report": clarification_message,
+        "workflow_status": "needs_clarification",
     }
 
 def prepare_evidence_node(state: DragnetState):
@@ -271,7 +383,10 @@ Outstanding validation feedback:
 
 workflow = StateGraph(DragnetState)
 
+workflow.add_node("plan_initial_search", plan_initial_search_node)
 workflow.add_node("research", research_node)
+workflow.add_node("assess_query", assess_query_node)
+workflow.add_node("request_clarification", clarification_node)
 workflow.add_node("prepare_evidence", prepare_evidence_node)
 workflow.add_node("generate_draft", generate_draft_node)
 workflow.add_node("validate_draft", validate_draft_node)
@@ -279,8 +394,27 @@ workflow.add_node("plan_follow_up_research", plan_follow_up_research_node)
 workflow.add_node("revise_draft", revise_draft_node)
 workflow.add_node("finalise_report", finalise_report_node)
 
-workflow.add_edge(START, "research")
-workflow.add_edge("research", "prepare_evidence")
+workflow.add_edge(START, "plan_initial_search")
+workflow.add_edge("plan_initial_search", "research")
+workflow.add_conditional_edges(
+    "research",
+    decide_after_research,
+    {
+        "assess_query": "assess_query",
+        "prepare_evidence": "prepare_evidence",
+    },
+)
+
+workflow.add_conditional_edges(
+    "assess_query",
+    decide_after_query_assessment,
+    {
+        "continue_research": "prepare_evidence",
+        "request_clarification": "request_clarification",
+    },
+)
+
+workflow.add_edge("request_clarification", END)
 
 workflow.add_conditional_edges(
     "prepare_evidence",
@@ -330,21 +464,29 @@ def main():
     print("\nDRAGNET LANGGRAPH REPORT\n")
     print(report)
     print(f"\nDraft iterations completed: {result['iteration_count']}")
-    print(
-    f"Research iterations completed: "
-    f"{result['research_iteration_count']}"
-)
-    print(f"Final validation passed: {result['validation_passed']}")
-    print("\nFinal validation feedback:")
-    print(result["validation_feedback"])
+    if result["workflow_status"] != "needs_clarification":
+        print(f"\nDraft iterations completed: {result['iteration_count']}")
+        print(
+            f"Research iterations completed: "
+            f"{result['research_iteration_count']}"
+        )
+        print(f"Final validation passed: {result['validation_passed']}")
+        print("\nFinal validation feedback:")
+        print(result["validation_feedback"])
 
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     safe_query = re.sub(r"[^A-Za-z0-9]+", "_", query).strip("_")[:60]
 
+    output_prefix = (
+        "DragnetClarification"
+        if result["workflow_status"] == "needs_clarification"
+        else "DragnetGraphReport"
+    )
+
     output_path = (
         PROJECT_ROOT
         / "outputs"
-        / f"DragnetGraphReport_{safe_query}_{timestamp}.txt"
+            / f"{output_prefix}_{safe_query}_{timestamp}.txt"
     )
 
     output_path.write_text(report, encoding="utf-8")
