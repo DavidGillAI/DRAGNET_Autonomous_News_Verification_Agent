@@ -1,0 +1,37 @@
+﻿---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	plan_initial_search(plan_initial_search)
+	research(research)
+	assess_query(assess_query)
+	request_clarification(request_clarification)
+	prepare_evidence(prepare_evidence)
+	generate_draft(generate_draft)
+	validate_draft(validate_draft)
+	plan_follow_up_research(plan_follow_up_research)
+	revise_draft(revise_draft)
+	finalise_report(finalise_report)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> plan_initial_search;
+	assess_query -. &nbsp;continue_research&nbsp; .-> prepare_evidence;
+	assess_query -.-> request_clarification;
+	generate_draft --> validate_draft;
+	plan_follow_up_research --> research;
+	plan_initial_search --> research;
+	prepare_evidence -. &nbsp;generate&nbsp; .-> generate_draft;
+	prepare_evidence -. &nbsp;revise&nbsp; .-> revise_draft;
+	research -.-> assess_query;
+	research -.-> prepare_evidence;
+	revise_draft --> validate_draft;
+	validate_draft -. &nbsp;finish&nbsp; .-> finalise_report;
+	validate_draft -. &nbsp;research_more&nbsp; .-> plan_follow_up_research;
+	finalise_report --> __end__;
+	request_clarification --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
+

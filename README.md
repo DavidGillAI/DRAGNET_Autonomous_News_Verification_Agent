@@ -45,3 +45,7 @@ The project plan is the reference point for all scope and technical decisions. T
 ## Setup
 
 Setup instructions will be added as the project develops.
+
+## LangGraph Workflow
+
+See the [DRAGNET LangGraph workflow diagram](docs/dragnet_langgraph.md) for the current research, clarification, validation and revision paths.
