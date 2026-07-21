@@ -113,6 +113,8 @@ Include only limitations that can be established from the supplied evidence.
 
 State:
 
+- Research iterations completed: [use only the verified runtime count supplied]
+- Search coverage: [briefly summarise the supplied research log, including whether follow-up searches added new articles]
 - Evidence basis: GNews article metadata, descriptions and content snippets.
 - Source limitations: [limitations visible in the supplied evidence]
 - Language limitation: English-language sources only.

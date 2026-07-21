@@ -1,0 +1,78 @@
+# DRAGNET Report: UK Inflation and Interest Rates
+
+## Fact-Focused Summary
+
+Recent developments regarding UK inflation and interest rates indicate that the Bank of England has maintained its interest rate at 3.75%. This decision comes amid ongoing geopolitical tensions, particularly related to the US-Iran war, which have contributed to inflationary pressures. Additionally, there are rising expectations among investors that the Bank of England may keep interest rates elevated for an extended period due to concerns about inflation driven by increasing oil prices. However, the specific nature of these investor expectations is speculative and lacks direct corroboration from independent sources.
+
+---
+
+## Timeline, if dates matter
+
+- **June 18, 2026**: The Bank of England kept interest rates on hold at 3.75%, citing unclear inflation pressures due to geopolitical tensions.
+- **July 14, 2026**: UK bond yields reached a one-month high, influenced by rising oil prices and expectations of prolonged elevated interest rates.
+
+---
+
+## Confirmed / Strongly Supported Facts
+
+- The Bank of England has kept interest rates on hold at 3.75% as of June 18, 2026.  
+  Supported by: RTE.ie
+
+- Rising oil prices, driven by Middle East tensions, are contributing to inflation concerns and influencing monetary policy expectations.  
+  Supported by: The Economic Times
+
+---
+
+## Disputed / Unsupported / Unresolved Claims
+
+### Claim: Investors anticipate the Bank of England will maintain elevated interest rates for a longer duration.
+
+**Status:** Disputed
+
+**Assessment:** While there is a suggestion of increased expectations among investors regarding prolonged elevated interest rates, this claim lacks direct attribution or corroboration from independent sources. The nature of these expectations is speculative and not firmly established.
+
+---
+
+## Overall Assessment
+
+The evidence indicates that the Bank of England is currently holding interest rates steady amid inflation concerns linked to geopolitical events. However, the anticipation of prolonged elevated rates is not firmly established and remains somewhat speculative, lacking independent verification. This speculative nature of the claim about investor expectations reduces the overall confidence in the report.
+
+---
+
+## Confidence Score
+
+**Confidence: 65%**
+
+The score reflects a moderate level of confidence based on the quality of the sources, with one source being a direct report from the Bank of England's decision and the other providing context on market reactions. However, the speculative nature of investor expectations regarding future rate hikes reduces overall confidence.
+
+---
+
+## Research Transparency
+
+- Evidence basis: GNews article metadata, descriptions, and content snippets.
+- Source limitations: The articles provide insights but do not include direct quotes or primary documents from the Bank of England. The speculative claim about investor expectations lacks independent corroboration.
+- Language limitation: English-language sources only.
+
+---
+
+## What Would Clarify the Story, if inconclusive
+
+A firmer conclusion would require:
+- Direct statements or reports from the Bank of England regarding future interest rate expectations.
+- Independent analyses or forecasts from financial experts on the impact of geopolitical tensions on UK inflation.
+
+---
+
+## Sources
+
+1. **RTE.ie**  
+   **Title:** Bank of England keeps UK interest rates on hold  
+   **Published:** 2026-06-18  
+   **URL:** [Link](https://www.rte.ie/news/business/2026/0618/1579105-bank-of-england-interest-rates/)  
+   **Used for:** Confirming the current interest rate held by the Bank of England.
+
+2. **The Economic Times**  
+   **Title:** Global Market: UK bond yields hit one-month high as Middle East tensions boost rate-hike expectations  
+   **Published:** 2026-07-14  
+   **URL:** [Link](https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-uk-bond-yields-hit-one-month-high-as-middle-east-tensions-boost-rate-hike-expectations/articleshow/132383109.cms)  
+   **Used for:** Providing context on inflation concerns and market expectations related to interest rates.

@@ -1,0 +1,118 @@
+# DRAGNET Report
+
+## Purpose
+
+This report evaluates the current state of UK inflation and interest rates based on recent articles from the GNews evidence package.
+
+---
+
+## Fact-Focused Summary
+
+Recent developments indicate that the Bank of England has maintained interest rates at 3.75% amid ongoing inflation concerns. The decision to keep rates unchanged is influenced by the unclear strength of inflation pressures, particularly in light of rising oil prices due to Middle East tensions. These factors are contributing to expectations that the Bank of England may need to sustain elevated interest rates for a longer period.
+
+---
+
+## Timeline, if dates matter
+
+- **June 18, 2026**: The Bank of England keeps interest rates on hold at 3.75%, citing unclear inflation pressures.
+- **July 14, 2026**: UK bond yields reach a one-month high, driven by rising oil prices and increased rate-hike expectations.
+
+---
+
+## Confirmed / Strongly Supported Facts
+
+- The Bank of England has kept interest rates on hold at 3.75% as of June 18, 2026.  
+  Supported by: RTE.ie
+
+- Rising oil prices, influenced by Middle East tensions, are contributing to inflation concerns and impacting monetary policy expectations.  
+  Supported by: The Economic Times
+
+---
+
+## Disputed / Unsupported / Unresolved Claims
+
+### Claim: Investors anticipate the Bank of England will maintain elevated interest rates for a longer duration.
+
+**Status:** Disputed
+
+**Assessment:** This claim is based solely on the article from The Economic Times, which suggests that investors expect prolonged elevated interest rates. However, it lacks corroboration from independent sources, making it uncertain.
+
+---
+
+## Overall Assessment
+
+The evidence indicates that the Bank of England is currently holding interest rates steady due to inflation uncertainties, particularly influenced by external factors such as oil prices. However, the expectation of prolonged elevated rates remains disputed and requires further corroboration.
+
+---
+
+## Confidence Score
+
+**Confidence: 65%**
+
+The score reflects a moderate level of confidence based on the quality of the sources and the clarity of the claims made. The presence of a disputed claim regarding investor expectations lowers the overall confidence. Additionally, the sources are not independently corroborated, which further affects the confidence level.
+
+---
+
+## Research Transparency
+
+- Research iterations completed: 3
+- Search coverage: The search returned two unique articles relevant to the query about UK inflation and interest rates.
+- Evidence basis: GNews article metadata, descriptions, and content snippets.
+- Source limitations: The articles provide insights but do not include comprehensive data or primary evidence regarding inflation metrics or detailed monetary policy analysis.
+- Language limitation: English-language sources only.
+
+---
+
+## What Would Clarify the Story, if inconclusive
+
+A firmer conclusion would require:
+- Detailed inflation data from the Office for National Statistics (ONS).
+- Statements or forecasts from the Bank of England regarding future monetary policy.
+
+---
+
+## Sources
+
+1. **RTE.ie**  
+   **Title:** Bank of England keeps UK interest rates on hold  
+   **Published:** 2026-06-18  
+   **URL:** [https://www.rte.ie/news/business/2026/0618/1579105-bank-of-england-interest-rates/](https://www.rte.ie/news/business/2026/0618/1579105-bank-of-england-interest-rates/)  
+   **Used for:** Confirming the current interest rate held by the Bank of England.
+
+2. **The Economic Times**  
+   **Title:** Global Market: UK bond yields hit one-month high as Middle East tensions boost rate-hike expectations  
+   **Published:** 2026-07-14  
+   **URL:** [https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-uk-bond-yields-hit-one-month-high-as-middle-east-tensions-boost-rate-hike-expectations/articleshow/132383109.cms](https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-uk-bond-yields-hit-one-month-high-as-middle-east-tensions-boost-rate-hike-expectations/articleshow/132383109.cms)  
+   **Used for:** Providing context on inflation concerns and the impact of external factors on monetary policy expectations.
+
+---
+
+## Automated Validation Warning
+
+This report did not pass DRAGNET's automated validation after
+3 draft iterations and
+3 research iterations.
+
+Treat this output as an unresolved draft requiring further research or review.
+
+Outstanding validation feedback:
+
+STATUS: REVISE
+
+The draft report has several issues that need to be addressed:
+
+1. **Independent Sources**: The report relies on only two articles, which are not independent of each other. The Economic Times article discusses investor expectations based on market sentiment, while the RTE.ie article focuses on the Bank of England's decision. The lack of independent corroboration for the claim about investor expectations weakens the overall assessment.
+
+2. **Disputed Claims**: The report identifies a claim as disputed but does not sufficiently emphasize the need for additional sources to support it. The assessment should clearly state that the claim about investor expectations is based solely on one source, which is not enough to draw a firm conclusion.
+
+3. **Research Iterations**: The report mentions that three research iterations were completed, but it does not adequately explain why no additional sources were found or what specific searches were conducted to seek further evidence. This could raise questions about the thoroughness of the research.
+
+4. **Confidence Score**: The confidence score of 65% may be misleading given the reliance on a single source for a key claim. The report should clarify that the score reflects the uncertainty surrounding the disputed claim and the lack of independent verification.
+
+5. **Final Recency Check**: The report does not explicitly mention whether a final recency check was performed before producing the final answer, which is a requirement in the checklist.
+
+6. **Metadata Completeness**: While the sources are cited, the report should ensure that all sources used have complete metadata, including the publication date and URL, which it does, but it should also confirm that the sources are the most recent available.
+
+7. **Clarity on Unsupported Claims**: The report should more clearly indicate which claims are unsupported and require further evidence, particularly regarding the expectations of investors.
+
+Addressing these issues will enhance the clarity, reliability, and overall quality of the report.

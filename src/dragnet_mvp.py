@@ -38,8 +38,6 @@ if not GNEWS_API_KEY:
 if not OPENAI_API_KEY:
     raise ValueError("OPENAI_API_KEY was not found in the .env file.")
 
-print("DRAGNET environment loaded successfully.")
-
 def fetch_gnews_articles(search_query):
     url = "https://gnews.io/api/v4/search"
 
@@ -109,8 +107,7 @@ Important limits:
   including the timeline. Each must have a complete Sources entry using the
   supplied metadata. If the metadata is unavailable, remove the citation or
   unsupported claim.
-  If its metadata is unavailable, remove the citation or unsupported claim.
-- Preserve names, dates, titles and official roles exactly as supplied by the
+ - Preserve names, dates, titles and official roles exactly as supplied by the
   evidence. Do not infer or update a person's role from outside knowledge.
 - Distinguish between confirming that a source reported a claim and confirming
   that the claim itself is true. Single-source, anonymous or second-hand claims
@@ -145,40 +142,48 @@ GNews evidence package:
 
     return response.content
 
-query = input("Enter a news story or search query: ").strip()
+def main():
+    print("DRAGNET environment loaded successfully.")
 
-if not query:
-    raise ValueError("A news query is required.")
+    query = input("Enter a news story or search query: ").strip()
 
-print(f"Researching: {query}")
+    if not query:
+        raise ValueError("A news query is required.")
 
-articles = fetch_gnews_articles(query)
+    print(f"Researching: {query}")
 
-if not articles:
-    raise ValueError("GNews returned no articles for this query.")
+    articles = fetch_gnews_articles(query)
 
-print(f"Found {len(articles)} articles.")
+    if not articles:
+        raise ValueError("GNews returned no articles for this query.")
 
-evidence_package = format_articles_for_llm(articles)
+    print(f"Found {len(articles)} articles.")
 
-print(f"Evidence package prepared: {len(evidence_package)} characters.")
-print("\nPreview:\n")
-print(evidence_package[:1000])
-print("\nGenerating DRAGNET report...")
+    evidence_package = format_articles_for_llm(articles)
 
-report = generate_dragnet_report(query, evidence_package)
+    print(f"Evidence package prepared: {len(evidence_package)} characters.")
+    print("\nPreview:\n")
+    print(evidence_package[:1000])
+    print("\nGenerating DRAGNET report...")
 
-print("\nDRAGNET REPORT\n")
-print(report)
-timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-safe_query = re.sub(r"[^A-Za-z0-9]+", "_", query).strip("_")[:60]
+    report = generate_dragnet_report(query, evidence_package)
 
-output_path = (
-    PROJECT_ROOT
-    / "outputs"
-    / f"DragnetReport_{safe_query}_{timestamp}.txt"
-)
+    print("\nDRAGNET REPORT\n")
+    print(report)
 
-output_path.write_text(report, encoding="utf-8")
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    safe_query = re.sub(r"[^A-Za-z0-9]+", "_", query).strip("_")[:60]
 
-print(f"\nReport saved to: {output_path}")
+    output_path = (
+        PROJECT_ROOT
+        / "outputs"
+        / f"DragnetReport_{safe_query}_{timestamp}.txt"
+    )
+
+    output_path.write_text(report, encoding="utf-8")
+
+    print(f"\nReport saved to: {output_path}")
+
+
+if __name__ == "__main__":
+    main()
