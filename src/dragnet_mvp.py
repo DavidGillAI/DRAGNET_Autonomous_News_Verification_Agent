@@ -4,8 +4,18 @@ import requests
 from datetime import datetime
 from langchain_openai import ChatOpenAI
 from pathlib import Path
-
+from openai import OpenAI
 from dotenv import load_dotenv
+
+# OPENAI_MODEL = "gpt-4o-mini"
+OPENAI_MODEL = "gpt-5.5"
+
+TEMPERATURE = 0
+MAX_DRAFT_ITERATIONS = 3
+MAX_RESEARCH_ITERATIONS = 3
+MIN_UNIQUE_PUBLICATIONS = 3
+
+
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -13,9 +23,11 @@ load_dotenv(PROJECT_ROOT / ".env")
 
 GNEWS_API_KEY = os.getenv("GNEWS_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=OPENAI_API_KEY)
 llm = ChatOpenAI(
-    model="gpt-4o-mini",
-    temperature=0,
+    # model="gpt-4o-mini",
+    model="gpt-5.5",
+    temperature=TEMPERATURE,
     api_key=OPENAI_API_KEY,
 )
 
@@ -39,6 +51,8 @@ if not OPENAI_API_KEY:
     raise ValueError("OPENAI_API_KEY was not found in the .env file.")
 
 def fetch_gnews_articles(search_query):
+    search_query = search_query.replace("U.S.", "US")
+
     url = "https://gnews.io/api/v4/search"
 
     parameters = {
@@ -47,7 +61,7 @@ def fetch_gnews_articles(search_query):
         "max": 10,
         "apikey": GNEWS_API_KEY,
     }
-
+    print(parameters)
     response = requests.get(url, params=parameters, timeout=20)
     response.raise_for_status()
 
@@ -134,13 +148,43 @@ def generate_dragnet_report(search_query, evidence):
 User search query:
 {search_query}
 
-GNews evidence package:
+Evidence package:
 {evidence}
+
+The evidence package contains two distinct evidence sources:
+
+1. GNEWS EVIDENCE
+   - Metadata, descriptions and snippets from news articles.
+
+2. OPENAI WEB VERIFICATION
+   - Current web verification produced using OpenAI Web Search.
+
+Use both evidence sources where appropriate.
+
+If both evidence sources support the same conclusion, state that they are consistent.
+
+If they differ, explain the disagreement clearly.
+
+Research Transparency must accurately describe every evidence source used.
+
 """.strip()
 
     response = llm.invoke(prompt)
 
     return response.content
+
+def test_web_search():
+    response = client.responses.create(
+        model="gpt-5.5",
+        tools=[{"type": "web_search_preview"}],
+        input=(
+            "Verify this claim using current web sources only: "
+            "Did Donald Trump directly influence FIFA's decision involving "
+            "Folarin Balogun? Keep the answer under 150 words."
+        ),
+    )
+
+    print(response.output_text)
 
 def main():
     print("DRAGNET environment loaded successfully.")
