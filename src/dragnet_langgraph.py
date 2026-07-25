@@ -1,6 +1,7 @@
 from typing import TypedDict
 import re
 from datetime import datetime
+from urllib.parse import urlparse
 from langgraph.graph import END, START, StateGraph
 from dragnet_mvp import (
     PROJECT_ROOT,
@@ -14,6 +15,7 @@ from dragnet_mvp import (
 
 MAX_DRAFT_ITERATIONS = 3
 MAX_RESEARCH_ITERATIONS = 3
+MIN_UNIQUE_PUBLICATIONS = 3
 
 class DragnetState(TypedDict, total=False):
     query: str
@@ -30,6 +32,9 @@ class DragnetState(TypedDict, total=False):
     query_is_clear: bool
     query_assessment: str
     workflow_status: str
+    unique_source_domains: list[str]
+    source_diversity_count: int
+    source_diversity_passed: bool
 
 def plan_initial_search_node(state: DragnetState):
     planning_prompt = f"""
@@ -102,6 +107,52 @@ def research_node(state: DragnetState):
     
     }
 
+def assess_source_diversity_node(state: DragnetState):
+    source_domains = set()
+
+    for article in state["articles"]:
+        article_url = article.get("url", "")
+        domain = urlparse(article_url).netloc.lower()
+
+        if domain.startswith("www."):
+            domain = domain[4:]
+
+        if domain:
+            source_domains.add(domain)
+
+    unique_domains = sorted(source_domains)
+    diversity_count = len(unique_domains)
+    diversity_passed = diversity_count >= MIN_UNIQUE_PUBLICATIONS
+
+    print(
+        f"Unique publication domains: {diversity_count} "
+        f"(minimum required: {MIN_UNIQUE_PUBLICATIONS})"
+    )
+
+    updates = {
+        "unique_source_domains": unique_domains,
+        "source_diversity_count": diversity_count,
+        "source_diversity_passed": diversity_passed,
+    }
+
+    if not diversity_passed:
+        updates["validation_feedback"] = (
+            f"Insufficient publication diversity. Found {diversity_count} "
+            f"unique publication domains; at least "
+            f"{MIN_UNIQUE_PUBLICATIONS} are required."
+        )
+
+    return updates
+
+def decide_after_source_diversity(state: DragnetState):
+    if state["source_diversity_passed"]:
+        return "prepare_evidence"
+
+    if state["research_iteration_count"] >= MAX_RESEARCH_ITERATIONS:
+        return "prepare_limited_evidence"
+
+    return "research_more"
+
 def assess_query_node(state: DragnetState):
     article_overview = []
 
@@ -154,7 +205,7 @@ def decide_after_research(state: DragnetState):
     if state["research_iteration_count"] == 1:
         return "assess_query"
 
-    return "prepare_evidence"
+    return "assess_source_diversity"
 
 def decide_after_query_assessment(state: DragnetState):
     if state["query_is_clear"]:
@@ -201,9 +252,22 @@ Verified research process:
 Research iterations completed: {state["research_iteration_count"]}
 {research_log_text}
 
+Publication diversity:
+Unique publication domains: {state["source_diversity_count"]}
+Domains found: {", ".join(state["unique_source_domains"])}
+Minimum required: {MIN_UNIQUE_PUBLICATIONS}
+Diversity threshold passed: {state["source_diversity_passed"]}
+
 Use these details in Research Transparency where relevant.
 Do not claim that sources are independent, unbiased, duplicated or syndicated
 unless the evidence explicitly establishes that.
+
+In Research Transparency, explicitly state:
+- the unique publication-domain count;
+- the minimum required count;
+- whether the deterministic diversity threshold passed;
+- that publication-domain diversity does not prove source independence.
+
 """.strip()
 
     draft_report = generate_dragnet_report(
@@ -230,6 +294,7 @@ Important:
 - Check whether every source used in the report has complete metadata.
 - Check whether the report invents facts, access details or research actions.
 
+
 Respond with exactly one of these statuses on the first line:
 STATUS: PASS
 STATUS: REVISE
@@ -239,6 +304,12 @@ After the status, briefly explain any problems.
 Verified runtime research record:
 Research iterations completed: {state["research_iteration_count"]}
 {research_log_text}
+
+Publication diversity:
+Unique publication domains: {state["source_diversity_count"]}
+Domains found: {", ".join(state["unique_source_domains"])}
+Minimum required: {MIN_UNIQUE_PUBLICATIONS}
+Diversity threshold passed: {state["source_diversity_passed"]}
 
 Use this runtime record when assessing research actions and recency.
 Do not assume different publications are independent evidence chains unless
@@ -257,9 +328,24 @@ Draft report:
     response = llm.invoke(review_prompt)
     feedback = response.content.strip()
 
+    llm_validation_passed = feedback.startswith("STATUS: PASS")
+
+    validation_passed = (
+        llm_validation_passed
+        and state["source_diversity_passed"]
+    )
+
+    if not state["source_diversity_passed"]:
+        diversity_warning = (
+            "Deterministic diversity check failed: "
+            f"{state['source_diversity_count']} unique publication domains found; "
+            f"at least {MIN_UNIQUE_PUBLICATIONS} are required."
+        )
+        feedback = f"{feedback}\n\n{diversity_warning}"
+
     return {
         "validation_feedback": feedback,
-        "validation_passed": feedback.startswith("STATUS: PASS"),
+        "validation_passed": validation_passed,
     }
 
 def plan_follow_up_research_node(state: DragnetState):
@@ -289,6 +375,7 @@ Requirements:
 - Do not repeat or closely paraphrase a previous search query.
 - Avoid vague phrases such as "latest independent analysis".
 - Return only the search query.
+- If publication diversity is insufficient, target a different publication or a named primary organisation relevant to the claim.
 
 
 """.strip()
@@ -317,6 +404,12 @@ Evidence package:
 Verified research process:
 Research iterations completed: {state["research_iteration_count"]}
 {research_log_text}
+
+Publication diversity:
+Unique publication domains: {state["source_diversity_count"]}
+Domains found: {", ".join(state["unique_source_domains"])}
+Minimum required: {MIN_UNIQUE_PUBLICATIONS}
+Diversity threshold passed: {state["source_diversity_passed"]}
 
 Use these details in Research Transparency where relevant.
 Do not claim that sources are independent, unbiased, duplicated or syndicated
@@ -385,6 +478,7 @@ workflow = StateGraph(DragnetState)
 
 workflow.add_node("plan_initial_search", plan_initial_search_node)
 workflow.add_node("research", research_node)
+workflow.add_node("assess_source_diversity", assess_source_diversity_node,)
 workflow.add_node("assess_query", assess_query_node)
 workflow.add_node("request_clarification", clarification_node)
 workflow.add_node("prepare_evidence", prepare_evidence_node)
@@ -401,7 +495,7 @@ workflow.add_conditional_edges(
     decide_after_research,
     {
         "assess_query": "assess_query",
-        "prepare_evidence": "prepare_evidence",
+        "assess_source_diversity": "assess_source_diversity",
     },
 )
 
@@ -409,8 +503,18 @@ workflow.add_conditional_edges(
     "assess_query",
     decide_after_query_assessment,
     {
-        "continue_research": "prepare_evidence",
+        "continue_research": "assess_source_diversity",
         "request_clarification": "request_clarification",
+    },
+)
+
+workflow.add_conditional_edges(
+    "assess_source_diversity",
+    decide_after_source_diversity,
+    {
+        "prepare_evidence": "prepare_evidence",
+        "prepare_limited_evidence": "prepare_evidence",
+        "research_more": "plan_follow_up_research",
     },
 )
 
@@ -463,12 +567,20 @@ def main():
 
     print("\nDRAGNET LANGGRAPH REPORT\n")
     print(report)
-    print(f"\nDraft iterations completed: {result['iteration_count']}")
+
     if result["workflow_status"] != "needs_clarification":
         print(f"\nDraft iterations completed: {result['iteration_count']}")
         print(
             f"Research iterations completed: "
             f"{result['research_iteration_count']}"
+        )
+        print(
+            f"Unique publication domains: "
+            f"{result['source_diversity_count']}"
+        )
+        print(
+            f"Source diversity passed: "
+            f"{result['source_diversity_passed']}"
         )
         print(f"Final validation passed: {result['validation_passed']}")
         print("\nFinal validation feedback:")
@@ -486,7 +598,7 @@ def main():
     output_path = (
         PROJECT_ROOT
         / "outputs"
-            / f"{output_prefix}_{safe_query}_{timestamp}.txt"
+        / f"{output_prefix}_{safe_query}_{timestamp}.txt"
     )
 
     output_path.write_text(report, encoding="utf-8")
