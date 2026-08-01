@@ -8,12 +8,14 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 # OPENAI_MODEL = "gpt-4o-mini"
-OPENAI_MODEL = "gpt-5.5"
+OPENAI_MODEL = "gpt-5.4-mini"
+# OPENAI_MODEL = "gpt-5.5"
+
 
 TEMPERATURE = 0
-MAX_DRAFT_ITERATIONS = 3
-MAX_RESEARCH_ITERATIONS = 3
-MIN_UNIQUE_PUBLICATIONS = 3
+MAX_DRAFT_ITERATIONS = 0
+MAX_RESEARCH_ITERATIONS = 1
+MIN_UNIQUE_PUBLICATIONS = 1
 
 
 
@@ -26,7 +28,9 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=OPENAI_API_KEY)
 llm = ChatOpenAI(
     # model="gpt-4o-mini",
+    # model = "gpt-5.4-mini"
     model="gpt-5.5",
+    
     temperature=TEMPERATURE,
     api_key=OPENAI_API_KEY,
 )
@@ -185,6 +189,7 @@ def test_web_search():
     )
 
     print(response.output_text)
+    
 
 def main():
     print("DRAGNET environment loaded successfully.")

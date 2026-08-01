@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 from urllib.parse import urlparse
 from langgraph.graph import END, START, StateGraph
-from dragnet_mvp import (
+from src.dragnet_mvp import (
     PROJECT_ROOT,
     agent_checklist,
     build_system_prompt,

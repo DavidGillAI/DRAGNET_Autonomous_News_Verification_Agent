@@ -30,9 +30,22 @@ def investigate(request: dict):
         }
 
     except Exception as e:
-        import traceback
-
         return {
-            "error": str(e),
-            "traceback": traceback.format_exc(),
-        }
+        "report": f"""# Investigation could not be completed
+
+## Reason
+
+{str(e)}
+
+## What you can try
+
+- Rephrase the question.
+- Ask about a more recent event.
+- Use more specific keywords.
+- Check whether the event has been widely reported.
+
+This is an operational limitation rather than evidence that the claim is true or false.
+""",
+        "validation_passed": False,
+        "research_iterations": 0,
+    }
