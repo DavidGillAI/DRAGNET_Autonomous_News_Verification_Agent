@@ -25,9 +25,12 @@ def investigate(request: dict):
 
         return {
             "report": result["final_report"],
-            "validation_passed": result["validation_passed"],
-            "research_iterations": result["research_iteration_count"],
-        }
+            "planned_search": result.get("research_query"),
+            "validation_passed": result.get("validation_passed", False),
+            "research_iterations": result.get("research_iteration_count", 0),
+            }
+
+
 
     except Exception as e:
         return {

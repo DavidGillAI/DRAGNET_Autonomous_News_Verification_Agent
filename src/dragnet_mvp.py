@@ -7,8 +7,8 @@ from pathlib import Path
 from openai import OpenAI
 from dotenv import load_dotenv
 
-# OPENAI_MODEL = "gpt-4o-mini"
-OPENAI_MODEL = "gpt-5.4-mini"
+OPENAI_MODEL = "gpt-4o-mini"
+#OPENAI_MODEL = "gpt-5.4-mini"
 # OPENAI_MODEL = "gpt-5.5"
 
 
@@ -27,9 +27,9 @@ GNEWS_API_KEY = os.getenv("GNEWS_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=OPENAI_API_KEY)
 llm = ChatOpenAI(
-    # model="gpt-4o-mini",
+    model="gpt-4o-mini",
     # model = "gpt-5.4-mini"
-    model="gpt-5.5",
+    # model="gpt-5.5",
     
     temperature=TEMPERATURE,
     api_key=OPENAI_API_KEY,
@@ -68,8 +68,22 @@ def fetch_gnews_articles(search_query):
     print(parameters)
     response = requests.get(url, params=parameters, timeout=20)
     response.raise_for_status()
+    data = response.json()
 
-    return response.json().get("articles", [])
+    articles = data.get("articles", [])
+
+    if not articles:
+        info = data.get("information", {})
+        removed = data.get("articlesRemovedFromResponse", {})
+
+        if info or removed:
+            raise ValueError(
+            f"GNews found matching articles but none are accessible "
+            f"under the current free-tier API restrictions.\n\n"
+            f"GNews response:\n{info}\n{removed}"
+        )
+
+    return articles
 
 def format_articles_for_llm(article_list):
     formatted_articles = []

@@ -44,15 +44,16 @@ For each investigation, the agent should ask:
 
 ## Stop Conditions
 
-The agent should complete at least 3 research iterations and no more than 10.
+The agent should complete the configured research workflow.
 
-It may stop early only when:
+The workflow may stop when:
 
-- key claims are supported by strong enough evidence;
-- duplicated reporting has been handled correctly;
-- contradictions are resolved or clearly explained;
-- unsupported claims have been removed;
-- uncertainty is signposted;
-- a final recency check has been completed.
+- the available evidence has been collected;
+- publication diversity has been assessed;
+- OpenAI Web Verification has completed;
+- the report accurately reflects the available evidence;
+- uncertainty is clearly signposted;
+- any unsupported claims are identified;
+- a final validation review has been completed.
 
-If these conditions are not met after 10 iterations, return an inconclusive report explaining why.
+If the report does not satisfy the validation checks, return it with an Automated Validation Warning explaining the remaining limitations.

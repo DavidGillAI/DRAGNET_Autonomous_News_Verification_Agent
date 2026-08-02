@@ -40,17 +40,44 @@ class DragnetState(TypedDict, total=False):
 
 def plan_initial_search_node(state: DragnetState):
     planning_prompt = f"""
-Convert the user's question into a concise GNews keyword search.
+You are generating a search query for the GNews API.
+
+Your goal is NOT to summarise the user's question.
+Your goal is to maximise the chance of finding relevant news articles.
 
 User question:
 {state["query"]}
 
-Requirements:
-- Use 3 to 8 search terms.
-- Preserve important names, organisations and events.
-- Remove question words and unnecessary explanatory words.
-- Do not include punctuation, quotation marks or operators.
-- Return only the search terms.
+Rules:
+- Return 3 to 8 keywords only.
+- Keep names of people, organisations and places.
+- Prefer the central event over the wording of the question.
+- Replace vague phrases with the event they refer to where possible.
+- Remove question words, filler words and opinions.
+- Do not include punctuation or quotation marks.
+- Return only the search query.
+
+Examples:
+
+Question:
+Have UEFA lost confidence in Infantino?
+Search:
+UEFA FIFA Infantino boycott
+
+Question:
+Did Apple delay its AI features?
+Search:
+Apple AI Siri delay
+
+Question:
+Why is Grok controversial?
+Search:
+Grok xAI controversy
+
+Question:
+Did FIFA abandon its investment proposal?
+Search:
+FIFA World Cup investment proposal
 """.strip()
 
     response = llm.invoke(planning_prompt)
@@ -59,7 +86,8 @@ Requirements:
     api_query = re.sub(r"[^\w\s-]", " ", planned_query)
     api_query = " ".join(api_query.split())
 
-    print(f"Initial GNews search query: {api_query}")
+    print(f"\nUser question: {state['query']}")
+    print(f"Planned search: {api_query}\n")
 
     return {
         "research_query": api_query,
@@ -285,9 +313,11 @@ Please submit a more specific story or claim.
 """.strip()
 
     return {
-        "final_report": clarification_message,
-        "workflow_status": "needs_clarification",
-    }
+    "final_report": clarification_message,
+    "workflow_status": "needs_clarification",
+    "validation_passed": False,
+    "research_iteration_count": state.get("research_iteration_count", 0),
+}
 
 def prepare_evidence_node(state: DragnetState):
     gnews_evidence = format_articles_for_llm(state["articles"])
@@ -381,9 +411,16 @@ Important:
 
 Respond with exactly one of these statuses on the first line:
 STATUS: PASS
-STATUS: REVISE
+Use PASS when every checklist requirement is satisfied.
 
-After the status, briefly explain any problems.
+STATUS: REVISE
+Use REVISE only when one or more checklist requirements are objectively not satisfied.
+
+After the status, explain ONLY checklist items that failed.
+
+Do not invent new quality standards.
+Do not recommend improvements unless they correspond directly to a checklist item.
+If a checklist item is satisfied, treat it as passed even if it could theoretically be improved.
 
 Verified runtime research record:
 Research iterations completed: {state["research_iteration_count"]}
@@ -402,8 +439,18 @@ the supplied evidence establishes that.
 Evidence package used for this report:
 {state["evidence_package"]}
 
-Compare the draft only against this supplied evidence and the verified runtime
-record. Do not require information that is unavailable from these inputs.
+Compare the draft ONLY against:
+
+- the supplied evidence package;
+- the verified runtime record;
+- the DRAGNET checklist.
+
+Do not apply general journalism standards, legal standards,
+editorial preferences or best practices unless they are explicitly required
+by the checklist.
+
+If the report satisfies a checklist item, do not fail it because you think
+it could be improved.
 
 Draft report:
 {state["draft_report"]}
