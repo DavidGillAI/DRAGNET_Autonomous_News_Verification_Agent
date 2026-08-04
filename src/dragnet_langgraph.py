@@ -364,24 +364,6 @@ In Research Transparency, explicitly state:
 - whether the deterministic diversity threshold passed;
 - that publication-domain diversity does not prove source independence.
 
-FINAL RESEARCH CHECKLIST
-
-Final recency check completed: Yes
-
-Publication diversity:
-Unique publication domains: 6
-
-Minimum threshold met: Yes
-
-Web verification completed: Yes
-
-Evidence sources available:
-- GNews metadata and snippets
-- OpenAI Web Search
-
-Reminder:
-Do not claim source independence unless the evidence explicitly demonstrates it.
-
 """.strip()
 
     draft_report = generate_dragnet_report(

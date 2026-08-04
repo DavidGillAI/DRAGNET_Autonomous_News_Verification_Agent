@@ -14,38 +14,107 @@ The project follows the principle:
 
 ## Project Status
 
-Development has started. The current focus is setting up the project foundation, confirming the technical stack, and preparing the core agent structure.
+The DRAGNET MVP is complete and operational end to end.
 
-## Planned Technology Stack
+A user submits a question through Telegram. n8n sends it to a FastAPI endpoint, where a LangGraph workflow plans the research, retrieves news evidence through GNews, performs secondary verification using OpenAI Web Search, generates and validates a structured report, and returns the result to Telegram.
+
+The current focus is final testing, documentation and presentation preparation.
+
+## Technology Stack
 
 - Python
-- OpenAI
+- OpenAI API and OpenAI Web Search
 - LangChain
 - LangGraph
-- Pinecone
+- GNews API
+- FastAPI and Uvicorn
 - n8n
-- Telegram
-- News and web-search APIs
+- Telegram Bot API
+- Cloudflare Quick Tunnel
 
-## Current Repository Contents
+## Repository Structure
+
+- `src/dragnet_langgraph.py`  
+  The core LangGraph workflow for planning, research, web verification, evidence preparation, report generation, validation and finalisation.
+
+- `src/dragnet_mvp.py`  
+  Core GNews retrieval and report-generation functions used by the workflow.
+
+- `src/api.py`  
+  The FastAPI application exposing DRAGNET through the `/investigate` endpoint.
+
+- `docs/`  
+  Workflow diagrams and development documentation.
+
+- `reference_docs/`  
+  Verification rules, source-exclusion guidance and the report template.
+
+- `prompts/`  
+  Supporting agent and validation instructions.
+
+- `n8n/`  
+  Location for the exported n8n workflow used to connect Telegram to the FastAPI endpoint.
 
 - `project_plan.md`  
-  The main build plan for the project, including scope, technical decisions, MVP boundaries, risk assessment, implementation phases and definition of done.
+  The original project scope, implementation plan, risks and definition of done.
 
 - `requirements.txt`  
-  The Python dependencies for the project environment.
-
-- `.gitignore`  
-  Prevents local environment files, secrets and cache files from being committed.
+  The pinned Python dependencies required to run the project.
 
 ## Development Notes
 
-The project plan is the reference point for all scope and technical decisions. The MVP will be built first, with optional features deferred until the core autonomous workflow is working.
+The project plan records the original scope and development decisions. The current implementation and documentation describe the completed MVP.
+
+DRAGNET is designed for transparent evidence synthesis, not absolute truth determination. It reports what the available evidence supports, disputes or leaves uncertain.
+
+Features such as Pinecone, RAG, source credibility scoring, multi-language support and a web dashboard remain future development possibilities.
 
 ## Setup
 
-Setup instructions will be added as the project develops.
+### 1. Create and activate a virtual environment
 
-## LangGraph Workflow
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
 
-See the [DRAGNET LangGraph workflow diagram](docs/dragnet_langgraph.md) for the current research, clarification, validation and revision paths.
+### 2. Install the dependencies
+
+```powershell
+pip install -r requirements.txt
+```
+
+### 3. Create a `.env` file in the project root
+
+```env
+GNEWS_API_KEY=your_gnews_api_key
+OPENAI_API_KEY=your_openai_api_key
+```
+
+Never commit or share the `.env` file.
+
+### 4. Start the FastAPI server
+
+```powershell
+uvicorn src.api:app --reload
+```
+
+The API will be available at:
+
+```text
+http://127.0.0.1:8000
+```
+
+Submit an investigation using a POST request to:
+
+```text
+http://127.0.0.1:8000/investigate
+```
+
+with a JSON body such as:
+
+```json
+{
+  "query": "Did a public figure influence a recent sporting decision?"
+}
+```

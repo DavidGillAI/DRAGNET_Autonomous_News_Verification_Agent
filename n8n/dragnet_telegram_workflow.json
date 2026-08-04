@@ -1,0 +1,131 @@
+{
+  "name": "My workflow 17",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://renaissance-lyric-adelaide-deployment.trycloudflare.com/investigate",
+        "sendBody": true,
+        "contentType": "=json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "=query",
+              "value": "={{$json.message.text}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1391912d-ff9a-4044-b528-6c06e86c30cb",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "801fb17c-8dff-45f4-a6c0-27c459302788",
+      "name": "Telegram Trigger",
+      "webhookId": "f37100bd-48b2-44d2-b5ce-fe4bc1161c5b"
+       
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "report",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "c0f61fa5-8a1c-46ff-8c9b-f286c323149c",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "sendDocument",
+        "chatId": "={{$node[\"Telegram Trigger\"].json[\"message\"][\"chat\"][\"id\"]}}",
+        "binaryData": true,
+        "additionalFields": {
+          "fileName": "={{ \"DRAGNET_\" + $node[\"Telegram Trigger\"].json[\"message\"][\"text\"].replace(/[^a-zA-Z0-9]/g, \"_\").substring(0,50) + \".txt\" }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "6879faaf-9378-4716-8860-d8a171edbb07",
+      "name": "Send a document",
+      "webhookId": "da328e6f-d2f9-403f-9c94-450178b50725"
+        
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Send a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "03eb52d1-06c9-4657-b215-cb1240a6f1a2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "830695148bd1ae79a7685a5d7f1fa337ea0c44b5e0b04bf9816d60425264c85f"
+  },
+  "id": "EPHkwBuK2LJbPbGg",
+  "tags": []
+}

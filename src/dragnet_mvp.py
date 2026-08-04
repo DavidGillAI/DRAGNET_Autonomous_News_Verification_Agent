@@ -65,7 +65,6 @@ def fetch_gnews_articles(search_query):
         "max": 10,
         "apikey": GNEWS_API_KEY,
     }
-    print(parameters)
     response = requests.get(url, params=parameters, timeout=20)
     response.raise_for_status()
     data = response.json()

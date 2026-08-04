@@ -115,7 +115,7 @@ State:
 
 - Research iterations completed: [use only the verified runtime count supplied]
 - Search coverage: [briefly summarise the supplied research log, including whether follow-up searches added new articles]
-- Evidence basis: GNews article metadata, descriptions and content snippets.
+- Evidence basis: GNews article metadata, descriptions and content snippets, supplemented by OpenAI Web Verification.
 - Source limitations: [limitations visible in the supplied evidence]
 - Language limitation: English-language sources only.
 - Other relevant constraints: [only if supported by the evidence]
