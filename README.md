@@ -4,6 +4,32 @@
 
 *Just the facts, ma’am.*
 
+## Project at a glance
+
+| Question | Answer |
+| --- | --- |
+| Problem | News research requires comparing evidence, distinguishing reporting from inference and making uncertainty visible. |
+| Solution | A LangGraph research workflow connected to GNews, OpenAI Web Search, FastAPI, n8n and Telegram. |
+| Output | A structured report with supported and disputed claims, source links and validation feedback. |
+| Skills demonstrated | Workflow design, API integration, prompt iteration, evidence handling and evaluation. |
+| Current limit | An experimental MVP, with archived reports and separate evaluation exercises; it does not establish the truth of every claim. |
+
+## My contribution and use of AI
+
+I developed DRAGNET using AI assistance for coding and review. My focus was defining the research workflow and verification rules, connecting the services, testing report behaviour and examining failures in uncertainty handling.
+
+The work extends beyond generation: related repositories document claim classification, human review and preliminary governance assessments. Those exercises have their own scope and limitations and are not certifications or an end-to-end accuracy benchmark for this agent.
+
+## See the evidence
+
+| Evidence | What it shows |
+| --- | --- |
+| [Archived report and validator feedback](outputs/DragnetGraphReport_Did_Donald_Trump_directly_influence_FIFA_s_decision_involvin_2026-07-25_16-14-37.txt) | An example of the report structure and an unresolved draft flagged for further review. It is historical generated output, not a freshly verified news source. |
+| [Claim-classification evaluation](https://github.com/DavidGillAI/DRAGNET_LangSmith_Claim_Evaluation/blob/main/evaluation_summary.md) | Prompt refinement improved the recorded result from 11/16 to 14/16 on the same small dataset. Unseen testing is still needed. |
+| [Human review in Argilla](https://github.com/DavidGillAI/DRAGNET_Human_in_the_Loop_Evaluation/blob/main/lab_summary.md) | One reviewer's assessment of evidence grounding, consistency, uncertainty and clarity. |
+| [GDPR self-assessment](https://github.com/DavidGillAI/DRAGNET_GDPR_Self_Audit) | A preliminary assessment exercise. |
+| [EU AI Act assessment](https://github.com/DavidGillAI/DRAGNET_EU_AI_Act_Compliance_Audit) | A separate learning exercise about regulatory considerations. |
+
 ## Overview
 
 DRAGNET is an autonomous news research and verification agent. It is designed to investigate a current news story across multiple sources, compare the available reporting, identify unsupported claims, reduce opinion and framing, and return a fact-focused summary with transparent source links.
@@ -14,11 +40,11 @@ The project follows the principle:
 
 ## Project Status
 
-The DRAGNET MVP is complete and operational end to end.
+The repository documents an MVP connected end to end during development. Current live operation has not been reverified for this portfolio update.
 
 A user submits a question through Telegram. n8n sends it to a FastAPI endpoint, where a LangGraph workflow plans the research, retrieves news evidence through GNews, performs secondary verification using OpenAI Web Search, generates and validates a structured report, and returns the result to Telegram.
 
-The current focus is final testing, documentation and presentation preparation.
+The exported n8n workflow uses a temporary Cloudflare tunnel address. Configure your own endpoint and credentials before attempting a demonstration.
 
 ## Technology Stack
 
@@ -118,3 +144,18 @@ with a JSON body such as:
   "query": "Did a public figure influence a recent sporting decision?"
 }
 ```
+
+The `query` must be a string containing 1–4,000 characters after trimming surrounding whitespace. Invalid requests return HTTP 422 without starting research. An unexpected research failure returns HTTP 500 and a generic report without exposing exception details. A completed workflow can still return HTTP 200 with `validation_passed: false`; this means the report needs review, not that the underlying claim is false.
+
+### Telegram and n8n error handling
+
+The exported workflow enables **Response → Never Error** in its HTTP Request node so the API's error report can still reach the document-delivery step. Request validation and research errors retain a `report` field. Connection failures before an HTTP response still require n8n error handling. Reimport or update the workflow when adopting these API changes; the live Telegram integration has not been retested as part of this update.
+
+### Offline API checks
+
+```powershell
+python -m pip install httpx
+python -m unittest discover -s tests -v
+```
+
+These checks use a fake research graph and make no GNews, OpenAI or Telegram requests. They cover accepted inputs, rejected inputs, response status codes and safe error messages. The older `src/test_*.py` scripts make live provider calls and need credentials; they are separate from these offline checks.
